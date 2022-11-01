@@ -1,0 +1,11 @@
+local expect = require('expect')
+local busted = require('busted')
+require('expect-spy')(expect)
+expect.parameters.throw = busted.fail
+
+return {
+  default = {
+    ['auto-insulate'] = false,
+    lpath = './?.lua;' .. (require('lfs').currentdir()) .. '/?.lua;'
+  }
+}
