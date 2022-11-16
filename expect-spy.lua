@@ -53,4 +53,29 @@ return function(expect)
       'expected spy for {actualFunction} to have been called with arguments {!arguments}', params), FailureMessage(
       'expected spy for {actualFunction} to not have been called with arguments {!arguments}', params))
   end)
+
+  -- Check the spy returned value
+  expect.addMethod('returned', function(controlData, ...)
+    ensureSpy(controlData)
+    local params = {
+      actualFunction = controlData.actual.callback,
+      retVals = setmetatable({...}, {
+        __tostring = function(retVals)
+          local result = ''
+          for i = 1, #retVals do
+            if i > 1 then
+              result = result .. ', '
+            end
+            result = result .. tostring(retVals[i])
+          end
+          return result
+        end
+      })
+    }
+    local retVals = {...}
+    retVals.n = #retVals
+    controlData:assert(controlData.actual:returned_with(retVals),
+      FailureMessage('expected spy for {actualFunction} to have returned {!retVals}', params),
+      FailureMessage('expected spy for {actualFunction} to not have returned {!retVals}', params))
+  end)
 end

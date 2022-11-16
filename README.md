@@ -50,3 +50,14 @@ s(4, 5)
 expect(s).to.have.been.calledWith(4, 5)
 expect(s).to.have.been.calledWith(1, 2, 3)
 ```
+
+## returned([val1[, val2[, ...]]])
+
+Asserts that the target spy returned at least once the given values.
+
+```lua
+local s = spy.new(function() return 42 end)
+s()
+
+expect(s).to.have.returned(42)
+```

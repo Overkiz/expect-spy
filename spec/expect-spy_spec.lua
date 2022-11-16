@@ -110,4 +110,50 @@ describe('expect-spy', function()
       end)
     end)
   end)
+
+  describe('returned', function()
+    describe('(positive)', function()
+      case('if returned parameter is correct', function()
+        spy = luassertSpy(function()
+          return 42
+        end)
+        spy()
+        expect(spy).to.have.returned(42)
+      end)
+
+      case('if returned parameters are correct', function()
+        spy = luassertSpy(function()
+          return 42, 'yes'
+        end)
+        spy()
+        expect(spy).to.have.returned(42, 'yes')
+      end)
+
+      case('if returned incorrect paramter', function()
+        spy = luassertSpy(function()
+          return 12
+        end)
+        spy()
+        expect(spy).to.have.returned(42)
+      end, 'expected spy for function.* to have returned 42')
+    end)
+
+    describe('(negative)', function()
+      case('if returned parameter is correct', function()
+        spy = luassertSpy(function()
+          return 42
+        end)
+        spy()
+        expect(spy).to.Not.have.returned(42)
+      end, 'expected spy for function.* to not have returned 42')
+
+      case('if returned incorrect paramter', function()
+        spy = luassertSpy(function()
+          return 12
+        end)
+        spy()
+        expect(spy).to.Not.have.returned(42)
+      end)
+    end)
+  end)
 end)
