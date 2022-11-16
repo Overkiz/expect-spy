@@ -28,3 +28,25 @@ require('expect-spy')(expect)
 
 If `count` is not provided, asserts that the target spy was called at least once. If `count` is provided,
 asserts that the target spy was called exactly the given count of times.
+
+```lua
+local s = spy.new(function() end)
+s(1, 2, 3)
+s(4, 5)
+
+expect(s).to.have.been.called() -- Called at least once
+expect(s).to.have.been.called(2) -- Called exactly twice
+```
+
+## calledWith([arg1[, arg2[, ...]]])
+
+Asserts that the target spy has been called at least once with the given arguments.
+
+```lua
+local s = spy.new(function() end)
+s(1, 2, 3)
+s(4, 5)
+
+expect(s).to.have.been.calledWith(4, 5)
+expect(s).to.have.been.calledWith(1, 2, 3)
+```
