@@ -28,4 +28,29 @@ return function(expect)
                                 'expected spy for {actualFunction} to not have been called, but it was called {!actualTimes} time{!actualPlural}',
       params))
   end)
+
+  -- Check the spy called arguments
+  expect.addMethod('calledWith', function(controlData, ...)
+    ensureSpy(controlData)
+    local params = {
+      actualFunction = controlData.actual.callback,
+      arguments = setmetatable({...}, {
+        __tostring = function(arguments)
+          local result = ''
+          for i = 1, #arguments do
+            if i > 1 then
+              result = result .. ', '
+            end
+            result = result .. tostring(arguments[i])
+          end
+          return result
+        end
+      })
+    }
+    local arguments = {...}
+    arguments.n = #arguments
+    controlData:assert(controlData.actual:called_with(arguments), FailureMessage(
+      'expected spy for {actualFunction} to have been called with arguments {!arguments}', params), FailureMessage(
+      'expected spy for {actualFunction} to not have been called with arguments {!arguments}', params))
+  end)
 end
