@@ -1,6 +1,6 @@
 # Expect-spy - expect package plugin for spies
 
-The package `expect-spy` is a plugin to [expect](https://github.com/sveyret/expect) which adds words used
+The package `expect-spy` is a plugin to [expect](https://github.com/Overkiz/expect) which adds words used
 to manage [luassert spies](https://lunarmodules.github.io/busted/#spies-mocks-stubs).
 
 # Installation
