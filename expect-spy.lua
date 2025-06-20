@@ -29,6 +29,11 @@ return function(expect)
       params))
   end)
 
+  expect.addMethod('nth', function(controlData, n)
+    ensureSpy(controlData)
+    controlData.spyCallNumber = n
+  end)
+
   -- Check the spy called arguments
   expect.addMethod('calledWith', function(controlData, ...)
     ensureSpy(controlData)
@@ -49,7 +54,7 @@ return function(expect)
     }
     local arguments = {...}
     arguments.n = #arguments
-    controlData:assert(controlData.actual:called_with(arguments), FailureMessage(
+    controlData:assert(controlData.actual:called_with(arguments, controlData.spyCallNumber), FailureMessage(
       'expected spy for {actualFunction} to have been called with arguments {!arguments}', params), FailureMessage(
       'expected spy for {actualFunction} to not have been called with arguments {!arguments}', params))
   end)
@@ -74,7 +79,7 @@ return function(expect)
     }
     local retVals = {...}
     retVals.n = #retVals
-    controlData:assert(controlData.actual:returned_with(retVals),
+    controlData:assert(controlData.actual:returned_with(retVals, controlData.spyCallNumber),
       FailureMessage('expected spy for {actualFunction} to have returned {!retVals}', params),
       FailureMessage('expected spy for {actualFunction} to not have returned {!retVals}', params))
   end)
